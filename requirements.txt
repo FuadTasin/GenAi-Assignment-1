@@ -1,0 +1,51 @@
+# LangChain
+langchain
+langchain-core
+
+# OpenAI
+langchain-openai
+openai
+
+# Google Gemini
+langchain-google-genai
+google-generativeai
+
+# Anthropic
+langchain-anthropic
+
+# Groq
+langchain-groq
+
+# Hugging Face
+langchain-huggingface
+transformers
+huggingface-hub
+
+# Environment variables
+python-dotenv
+
+# ML utilities
+numpy
+scikit-learn
+
+# Local Embeddings
+sentence-transformers
+
+# Streamlit
+streamlit
+
+#Validation
+pydantic
+
+#Email validation
+email-validator
+
+#Structured Output Parser
+langchain-classic
+
+#Show chain graph
+grandalf
+
+#Jupyter Notebook
+jupyter
+ipykernel
