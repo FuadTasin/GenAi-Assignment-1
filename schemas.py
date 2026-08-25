@@ -6,7 +6,7 @@ class Response(BaseModel):
     answer:str=Field(description="The answer to the user's response.")
     summary:str=Field(description="Give the summary of the question within 1-3 sentences.")
     confidence:float=Field(gt=0,lt=1,description="The confidence should be between 0 to 1.")
-    category:str=Field(description="The category of the user's question.")
+    category:str=Field(description="The category of the user's question.The categories are Mathematical,Programming & General")
     keywords:list[str]=Field(description="Give the keyword from the response")
 
 pydantic_output_parser=PydanticOutputParser(pydantic_object=Response)
