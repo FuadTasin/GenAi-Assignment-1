@@ -1,9 +1,13 @@
 from dataclasses import field
 from pydantic import BaseModel,Field
+from langchain_core.output_parsers import StrOutputParser,PydanticOutputParser
 
 class Response(BaseModel):
-    answer:str=Field(description="")
+    answer:str=Field(description="The answer to the user's response.")
     summary:str=Field(description="Give the summary of the question within 1-3 sentences.")
-    confidence:float=Field(gt=0,lt=1,description="Give the confidence of the response.")
-    category:str=Field(description="")
-    keywords:list=Field(description="Give the keyword from the response")
+    confidence:float=Field(gt=0,lt=1,description="The confidence should be between 0 to 1.")
+    category:str=Field(description="The category of the user's question.")
+    keywords:list[str]=Field(description="Give the keyword from the response")
+
+pydantic_output_parser=PydanticOutputParser(pydantic_object=Response)
+str_output_parser=StrOutputParser()
