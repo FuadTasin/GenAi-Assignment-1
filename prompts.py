@@ -12,8 +12,10 @@ general_template=PromptTemplate(
     {input_type}
     Give the response in a general way. Include mathematical equations or programming concepts when relevant.
     In this category, theoretical information should be prioritized over other types of information.
+    Here the chat history is also included for the past conversations.Utilize it perfectly:
+    {chat_history}
     """,
-    input_variables=["user_input","input_type","category_input"],
+    input_variables=["user_input","input_type","category_input","chat_history"],
 )
 
 mathematical_template=PromptTemplate(
@@ -27,8 +29,10 @@ mathematical_template=PromptTemplate(
     {input_type}
     Give the response in a mathematical way. Theoretical concepts or programming knowledge may be included when relevant, but mathematical concepts and terminology should be prioritized.
     For better understanding, provide explanations alongside the equations.
+    Here the chat history is also included for the past conversations.Utilize it perfectly:
+    {chat_history}
     """,
-    input_variables=["user_input","input_type","category_input"],
+    input_variables=["user_input","input_type","category_input","chat_history"],
 )
 
 programming_template=PromptTemplate(
@@ -42,8 +46,10 @@ programming_template=PromptTemplate(
     {input_type}
     Give a general idea about the program, including its approach, where it is used, and how it works. Then provide the program code with a short explanation.
     Prioritize the program code and its explanation, but also provide a brief general overview.
+    Here the chat history is also included for the past conversations.Utilize it perfectly:
+    {chat_history}
     """,
-    input_variables=["user_input","input_type","category_input"],
+    input_variables=["user_input","input_type","category_input","chat_history"],
 )
 
 summary_prompt=PromptTemplate(

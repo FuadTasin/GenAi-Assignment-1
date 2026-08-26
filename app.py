@@ -64,7 +64,8 @@ if user_input:
     result=parallel_chain.invoke({
         "user_input":user_input,
         "input_type":input_type,
-        "category_input":category_input
+        "category_input":category_input,
+        "chat_history":st.session_state.chat_history
     })
 
     with st.chat_message("ai"):
