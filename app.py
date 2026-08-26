@@ -8,9 +8,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-general_chain=general_template|chat_model|pydantic_output_parser
-programming_chain=programming_template|chat_model|pydantic_output_parser
-mathematical_chain=mathematical_template|chat_model|pydantic_output_parser
+general_chain=general_template|chat_model|str_output_parser
+programming_chain=programming_template|chat_model|str_output_parser
+mathematical_chain=mathematical_template|chat_model|str_output_parser
 
 conditional_chain=RunnableBranch(
     (lambda x:"programming intuition" in x["category_input"].strip().lower(),programming_chain),
@@ -19,8 +19,8 @@ conditional_chain=RunnableBranch(
 )
 
 parallel_chain=RunnableParallel({
-    "summary":conditional_chain|summary_prompt|chat_model|str_output_parser,
-    "answer":conditional_chain|answer_prompt|chat_model|str_output_parser
+    "summary":conditional_chain|summary_prompt|chat_model|pydantic_output_parser,
+    "answer":conditional_chain|answer_prompt|chat_model|pydantic_output_parser
 })
 
 if "chat_history" not in st.session_state:
@@ -68,6 +68,7 @@ if user_input:
     })
 
     with st.chat_message("ai"):
-        st.write(f"Summary:{result["summary"]}\nResult:{result["answer"]}")
+        st.write(f"""Summary:{result["summary"].summary}
+        Result:{result["answer"].answer}""")
 
-    st.session_state.chat_history.append(AIMessage(content=result["answer"]))
+    st.session_state.chat_history.append(AIMessage(content=result["answer"].answer))
