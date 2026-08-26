@@ -8,6 +8,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+def clear_text():
+    st.session_state.chat_history=[SystemMessage(content="You are a helpful assistant.Always answer useful things,try to avoid unnecessary things.And if possible then give a short paragraph(if it is wanted)")]
+
 general_chain=general_template|chat_model|str_output_parser
 programming_chain=programming_template|chat_model|str_output_parser
 mathematical_chain=mathematical_template|chat_model|str_output_parser
@@ -69,7 +72,9 @@ if user_input:
     })
 
     with st.chat_message("ai"):
-        st.write(f"""Summary:{result["summary"].summary}
-        Result:{result["answer"].answer}""")
+        st.write(f"Summary:{result["summary"].summary}")
+        st.write(f"Result:{result["answer"].answer}")
 
-    st.session_state.chat_history.append(AIMessage(content=result["answer"].answer))
+    st.session_state.chat_history.append(AIMessage(content=result["summary"].summary))
+
+st.button("Clear",on_click=clear_text)
