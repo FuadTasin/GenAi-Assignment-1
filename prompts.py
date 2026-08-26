@@ -5,7 +5,7 @@ general_template=PromptTemplate(
     template="""
     You are an AI Tutor.
     The question given by the user is:
-    {question}
+    {user_input}
     The user wants the explanation in the following category:
     {category_input}
     And also, the user wants the explanation at this level:
@@ -15,7 +15,7 @@ general_template=PromptTemplate(
     Also follow the format instructions: 
     {format_instruction}
     """,
-    input_variables=["input_type","category_input","question"],
+    input_variables=["user_input","input_type","category_input"],
     partial_variables={"format_instruction":pydantic_output_parser.get_format_instructions}
 )
 
@@ -23,7 +23,7 @@ mathematical_template=PromptTemplate(
     template="""
     You are an AI Tutor.
     The question given by the user is:
-    {question}
+    {user_input}
     The user wants the explanation in the following category:
     {category_input}
     And also, the user wants the explanation at this level:
@@ -33,7 +33,7 @@ mathematical_template=PromptTemplate(
     Also follow the format instructions: 
     {format_instruction}
     """,
-    input_variables=["input_type","category_input","question"],
+    input_variables=["user_input","input_type","category_input"],
     partial_variables={"format_instruction":pydantic_output_parser.get_format_instructions}
 )
 
@@ -41,7 +41,7 @@ programming_template=PromptTemplate(
     template="""
     You are an AI Tutor.
     The question given by the user is:
-    {question}
+    {user_input}
     The user wants the explanation in the following category:
     {category_input}
     And also, the user wants the explanation at this level:
@@ -50,6 +50,34 @@ programming_template=PromptTemplate(
     Prioritize the program code and its explanation, but also provide a brief general overview.    Also follow the format instructions: 
     {format_instruction}
     """,
-    input_variables=["input_type","category_input","question"],
+    input_variables=["user_input","input_type","category_input"],
     partial_variables={"format_instruction":pydantic_output_parser.get_format_instructions}
+)
+
+summary_prompt=PromptTemplate(
+    template="""
+    You are an AI Tutor.
+    The question by the user:
+    {user_input}
+    Based on the user's question, give the proper summary of the question:
+    {summary}
+    Also follow the format instructions: 
+    {format_instruction}
+    """,
+    input_variables=["user_input","summary"],
+    partial_variables={"format_instruction":pydantic_output_parser.get_format_instructions,}
+)
+
+answer_prompt=PromptTemplate(
+    template="""
+    You are an AI Tutor.
+    The question by the user:
+    {user_input}
+    Based on the user's question, give the proper & elaborate answer of it:
+    {answer}
+    Also follow the format instructions: 
+    {format_instruction}
+    """,
+    input_variables=["user_input","summary"],
+    partial_variables={"format_instruction":pydantic_output_parser.get_format_instructions,}
 )
