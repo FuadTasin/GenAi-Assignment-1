@@ -1,4 +1,3 @@
-from random import SystemRandom
 from chatbot import chat_model
 from schemas import str_output_parser,pydantic_output_parser
 from langchain.messages import SystemMessage,AIMessage,HumanMessage
@@ -11,6 +10,7 @@ load_dotenv()
 
 def clear_text():
     st.session_state.chat_history=[SystemMessage(content="You are a helpful assistant.Always answer useful things,try to avoid unnecessary things.And if possible then give a short paragraph(if it is wanted)")]
+    st.session_state.sidebar_history=[]
 
 general_chain=general_template|chat_model|str_output_parser
 programming_chain=programming_template|chat_model|str_output_parser
@@ -29,6 +29,9 @@ parallel_chain=RunnableParallel({
 
 if "chat_history" not in st.session_state:
     st.session_state.chat_history=[SystemMessage(content="You are a helpful assistant.Always answer useful things,try to avoid unnecessary things.And if possible then give a short paragraph(if it is wanted)")]
+
+if "sidebar_history" not in st.session_state:
+    st.session_state.sidebar_history=[]
 
 st.title("Simple AI Tutor")
 
@@ -58,10 +61,9 @@ with st.sidebar:
     st.subheader("💬 Chat History")
     st.button("Clear",on_click=clear_text)
     st.divider()
-    for msg in st.session_state.chat_history:
+    for msg in st.session_state.sidebar_history:
         if isinstance(msg, SystemMessage):
             continue
-
         if isinstance(msg, HumanMessage):
             st.markdown(f"**👤 You:** {msg.content}")
         elif isinstance(msg, AIMessage):
@@ -69,6 +71,7 @@ with st.sidebar:
 
 if user_input:
     st.session_state.chat_history.append(HumanMessage(content=user_input))
+    st.session_state.sidebar_history.append(HumanMessage(content=user_input))
 
     with st.chat_message("human"):
         st.write(user_input)
@@ -79,7 +82,7 @@ if user_input:
         "category_input":category_input,
         "chat_history":st.session_state.chat_history
     })
-
+    # dead code
     with st.chat_message("ai"):
         st.markdown("### Summary")
         st.write(result["summary"].summary)
@@ -87,5 +90,9 @@ if user_input:
         st.markdown("### Answer")
         st.write(result["answer"].answer)
 
-    st.session_state.chat_history.append(AIMessage(content=result["summary"].summary))
+    st.session_state.chat_history.append(AIMessage(
+    content=f"### Summary\n{result['summary'].summary}\n\n### Answer\n{result['answer'].answer}"
+    ))
+    st.session_state.sidebar_history.append(AIMessage(result["summary"].summary))
+    st.rerun()
 
