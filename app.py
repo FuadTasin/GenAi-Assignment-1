@@ -32,17 +32,6 @@ if "chat_history" not in st.session_state:
 
 st.title("Simple AI Tutor")
 
-for msg in st.session_state.chat_history:
-
-    if isinstance(msg,SystemMessage):
-        continue
-    elif isinstance(msg,HumanMessage):
-        st.write(msg.content,HumanMessage)
-    elif isinstance(msg,AIMessage):
-        st.write(msg.content,AIMessage)
-
-user_input=st.chat_input("Ask me anything.......")
-
 category_input=st.selectbox(
     "Response Category",
     ["General Intuition","Programming Intuition","Mathematical Intuition"]
@@ -51,6 +40,19 @@ input_type=st.selectbox(
     "Explanation Level",
     ["Beginner-Friendly","Intermediate","Deep Intuition"]
 )
+
+for msg in st.session_state.chat_history:
+
+    if isinstance(msg,SystemMessage):
+        continue
+    elif isinstance(msg,HumanMessage):
+        with st.chat_message("human"):
+            st.write(msg.content)
+    elif isinstance(msg,AIMessage):
+        with st.chat_message("ai"):
+            st.write(msg.content)
+
+user_input=st.chat_input("Ask me anything.......")
 
 with st.sidebar:
     st.subheader("💬 Chat History")
